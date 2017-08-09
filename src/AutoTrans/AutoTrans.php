@@ -61,7 +61,7 @@ class AutoTrans extends Command
 
     private function extractHtml($html)
     {
-        return preg_replace_callback(['/\{\{(.*)\}\}/', '/@\w*|(\(([^()]|(?R))*\))/', '/<[^()^<]*>/'], function ($match) {
+        return preg_replace_callback(['/\{\{(.*)\}\}/', '/@\w*|(\(([^()]|(?R))*\))/', '/<[^()^<]*>/'], function ($match) { /*HTML: (<.*?>)|(&.*?;)*/
             return str_pad('', strlen($match[0]), ' ');
         }, $html);
     }
@@ -76,7 +76,7 @@ class AutoTrans extends Command
     {
         ////////$text = preg_replace(['/\{\{(.*)\}\}/', '/@(.*)\)/', '/\(([^()]*|\([^()]*\))*\)/', '/@(.*)[ |\n|\t]/', '/\t/'], "", $text);
         $entities = strip_tags($blade);
-        $entities = preg_replace(['/\{\{(.*)\}\}/', '/@\w*|(\(([^()]|(?R))*\))/', '/\t/'], "", $entities);  // @\w*
+        $entities = preg_replace(['/\{\{(.*)\}\}/', '/@\w*|(\(([^()]|(?R))*\))/', '/\t/'], "", $entities);
 
         $entities = preg_replace(['/\r/', '/[ ]{2,}/'], "\n", $entities);
         $entities = preg_split('/\n/', $entities);
