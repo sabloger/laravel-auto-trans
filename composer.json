@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "AutoTrans\\": "packages/sabloger/laravel-auto-trans"
+            "": "src/"
         }
     }
 }
