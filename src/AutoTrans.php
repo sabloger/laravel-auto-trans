@@ -123,4 +123,6 @@ class AutoTrans extends Command
     //TODO:: age script o style o .. dasht chi??!! :-|
 
     //DONE TODO:: MOHEM:: replace lang ha dar blade ra az value haye BOZORGTAR be KUCHECKTAR replace konam ke age ye kalame ghatie kalameye dige bud daghun nashe
+
+    //TODO:: make a BK dir of all of changing blades with same folder structure in root dir of them.
 }

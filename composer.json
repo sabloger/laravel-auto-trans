@@ -2,13 +2,6 @@
     "name": "sabloger/laravel-auto-trans",
     "description": "Convert Hard-Stringed blades to auto-generated Multi-language blades! And only you need translate language files for other languages!",
     "type": "package",
-    "require": {
-        "laravel/laravel": "^5.0"
-    },
-    "require-dev": {
-        "laravel/laravel": "^5.0",
-        "phpunit/phpunit": "^6.3"
-    },
     "license": "MIT",
     "authors": [
         {
