@@ -11,9 +11,6 @@
     ],
     "minimum-stability": "dev",
     "autoload": {
-        "classmap": [
-            "database"
-        ],
         "psr-4": {
             "AutoTrans\\": "packages/sabloger/laravel-auto-trans"
         }

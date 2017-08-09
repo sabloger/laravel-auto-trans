@@ -2,9 +2,6 @@
 
 namespace AutoTrans;
 
-use App;
-use App\Http\Requests;
-use File;
 use Illuminate\Console\Command;
 
 /**
