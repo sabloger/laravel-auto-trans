@@ -22,57 +22,57 @@ class AutoTrans extends Command
 
         $blade = file_get_contents('resources/views/welcome.blade.php');
 
-        $lang = self::getLang($blade);
+        $lang = $this->getLang($blade);
 
-        self::sortByKeyLenDesc($lang);
+        $this->sortByKeyLenDesc($lang);
 
         if (empty($lang))
             return 'No hard-strings found!';
 
         //while (file_exists("./resources/lang/en/" . ($langFilename = 'message' . rand(1000, 9999)) . '.php'));
 
-        $newBlade = self::replaceKeys($lang, $blade, $langFilename);
+        $newBlade = $this->replaceKeys($lang, $blade, $langFilename);
 
         file_put_contents("resources/views/welcome2.blade.php", $newBlade);
 
-        $existingLang = self::getExistingLang($langFilename);
+        $existingLang = $this->getExistingLang($langFilename);
         $finalLang = array_merge($existingLang, $lang);
-        self::saveLangFile($langFilename, $finalLang);
+        $this->saveLangFile($langFilename, $finalLang);
     }
 
-    private static function sortByKeyLenDesc(&$lang)
+    private function sortByKeyLenDesc(&$lang)
     {
         $keys = array_map('strlen', array_keys($lang));
         array_multisort($keys, SORT_DESC, $lang);
     }
 
-    private static function replaceKeys($lang, $blade, $langFilename)
+    private function replaceKeys($lang, $blade, $langFilename)
     {
         //return str_replace(array_values($lang), $transTaggedKeys, $blade);
         $result = $blade;
         array_map(function ($item) use ($langFilename, $blade, $lang, &$result) {
             $key = str_replace('{key}', $item, "{{ trans('$langFilename.{key}') }}");
-            while (($pos = strpos(self::extractHtml($result), $lang[$item])) !== false){
+            while (($pos = strpos($this->extractHtml($result), $lang[$item])) !== false){
             $result = substr_replace($result, $key, $pos, strlen($lang[$item]));
         }
         }, array_keys($lang));
         return ($result);
     }
 
-    private static function extractHtml($html)
+    private function extractHtml($html)
     {
         return preg_replace_callback(['/\{\{(.*)\}\}/', '/@\w*|(\(([^()]|(?R))*\))/', '/<[^()^<]*>/'], function ($match) {
             return str_pad('', strlen($match[0]), ' ');
         }, $html);
     }
 
-    public static function saveLangFile($langFilename, $finalLang)
+    public function saveLangFile($langFilename, $finalLang)
     {
         $finalLangString = "<?php\nreturn " . var_export($finalLang, true) . ';';
         file_put_contents("./resources/lang/en/$langFilename.php", $finalLangString);
     }
 
-    public static function getLang($blade)
+    public function getLang($blade)
     {
         ////////$text = preg_replace(['/\{\{(.*)\}\}/', '/@(.*)\)/', '/\(([^()]*|\([^()]*\))*\)/', '/@(.*)[ |\n|\t]/', '/\t/'], "", $text);
         $entities = strip_tags($blade);
@@ -82,12 +82,12 @@ class AutoTrans extends Command
         $entities = preg_split('/\n/', $entities);
         $entities = array_map('trim', $entities);
         $entities = array_filter($entities);
-        $keys = self::getKeys($entities);
+        $keys = $this->getKeys($entities);
         return array_combine($keys, $entities);
 
     }
 
-    public static function getKeys($entities)
+    public function getKeys($entities)
     {
         $keys = preg_replace('/^\W*|\W*$/', '', $entities);
         $keys = preg_replace('/[ ]/', '_', $keys);
@@ -95,7 +95,7 @@ class AutoTrans extends Command
         return array_map('strtolower', $keys);
     }
 
-    public static function getExistingLang($lang_file)
+    public function getExistingLang($lang_file)
     {
         $lang = trans($lang_file);
         return $lang == $lang_file ? [] : $lang;
